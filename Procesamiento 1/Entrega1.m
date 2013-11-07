@@ -193,15 +193,118 @@ end
 guidata(hObject, handles);
 
 
-
-
-
 % --- Executes on button press in Interpolacion.
 function Interpolacion_Callback(hObject, eventdata, handles)
 % hObject    handle to Interpolacion (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
+    imagen=handles.ImagenOR1;
+elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
+    imagen=handles.ImagenOR2;
+elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
+    imagen=handles.ImagenOR3;
+end
+valor=get(handles.Colores,'Value');
+cadena=get(handles.Colores,'String');
+%if de factor o de tamaño
+if(get(handles.Radiob_Factor,'Value')==get(handles.Radiob_Factor,'Max'))
+factor = str2double(get(handles.Text_Factor, 'String'));
+[filas columnas]=size(imagen);
+filas=filas*str2double(get(handles.Text_Factor, 'String'));
+columnas=columnas*str2double(get(handles.Text_Factor, 'String'));
+valor2=get(handles.Tipo_Interp,'Value');
+    switch valor2
+    case 1
+        img_interpolada=imresize(imagen,[filas columnas],'nearest');
+    case 2
+        img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+    case 3
+        img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+    end
+handles.ImagenInterpoladaFac = img_interpolada;
+if(get(handles.Radiob_ImDestino1,'Value')==get(handles.Radiob_ImDestino1,'Max'))
+    handles.imagen1=handles.ImagenInterpoladaFac;
+    imshow(handles.imagen1,'parent',handles.Imagen1),colormap(char(cadena{valor}));
+    tam=size(handles.imagen1);
+    [~,ng]=imhist(handles.imagen1);
+    pri=ng(1);
+    ult=ng(end);
+     set(handles.nivel1,'String',[num2str(pri),',',num2str(ult)]);
+     set(handles.nivel1,'FontWeight','bold');
+     set(handles.dim1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+     set(handles.dim1,'FontWeight','bold');
+elseif(get(handles.Radiob_ImDestino2,'Value')==get(handles.Radiob_ImDestino2,'Max'))
+    handles.imagen2=handles.ImagenInterpoladaFac;
+    imshow(handles.imagen2,'parent',handles.Imagen2),colormap(char(cadena{valor}));
+    tam=size(handles.imagen2);
+    [~,ng]=imhist(handles.imagen2);
+    pri=ng(1);
+    ult=ng(end);
+     set(handles.nivel2,'String',[num2str(pri),',',num2str(ult)]);
+     set(handles.nivel2,'FontWeight','bold');
+     set(handles.dim2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+     set(handles.dim2,'FontWeight','bold');
+elseif(get(handles.Radiob_ImDestino3,'Value')==get(handles.Radiob_ImDestino3,'Max'))
+    handles.imagen3=handles.ImagenInterpoladaFac;
+    imshow(handles.imagen3,'parent',handles.Imagen3),colormap(char(cadena{valor}));
+    tam=size(handles.imagen3);
+    [~,ng]=imhist(handles.imagen3);
+    pri=ng(1);
+    ult=ng(end);
+     set(handles.nivel3,'String',[num2str(pri),',',num2str(ult)]);
+     set(handles.nivel3,'FontWeight','bold');
+     set(handles.dim3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+     set(handles.dim3,'FontWeight','bold');
+end
+elseif(get(handles.Radiob_Tam,'Value')==get(handles.Radiob_Tam,'Max'))
+    filas=str2double(get(handles.Valor_Filas,'String'));
+    columnas = str2double(get(handles.Valor_Columnas,'String'));
+    valor2=get(handles.Tipo_Interp,'Value');
+    switch valor2
+    case 1
+        img_interpolada=imresize(imagen,[filas columnas],'nearest');
+    case 2
+        img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+    case 3
+        img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+    end
+handles.ImagenInterpoladaFac = img_interpolada;
+if(get(handles.Radiob_ImDestino1,'Value')==get(handles.Radiob_ImDestino1,'Max'))
+    handles.imagen1=handles.ImagenInterpoladaFac;
+    imshow(handles.imagen1,'parent',handles.Imagen1),colormap(char(cadena{valor}));
+    tam=size(handles.imagen1);
+    [~,ng]=imhist(handles.imagen1);
+    pri=ng(1);
+    ult=ng(end);
+     set(handles.nivel1,'String',[num2str(pri),',',num2str(ult)]);
+     set(handles.nivel1,'FontWeight','bold');
+     set(handles.dim1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+     set(handles.dim1,'FontWeight','bold');
+elseif(get(handles.Radiob_ImDestino2,'Value')==get(handles.Radiob_ImDestino2,'Max'))
+    handles.imagen2=handles.ImagenInterpoladaFac;
+    imshow(handles.imagen2,'parent',handles.Imagen2),colormap(char(cadena{valor}));
+    tam=size(handles.imagen2);
+    [~,ng]=imhist(handles.imagen2);
+    pri=ng(1);
+    ult=ng(end);
+     set(handles.nivel2,'String',[num2str(pri),',',num2str(ult)]);
+     set(handles.nivel2,'FontWeight','bold');
+     set(handles.dim2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+     set(handles.dim2,'FontWeight','bold');
+elseif(get(handles.Radiob_ImDestino3,'Value')==get(handles.Radiob_ImDestino3,'Max'))
+    handles.imagen3=handles.ImagenInterpoladaFac;
+    imshow(handles.imagen3,'parent',handles.Imagen3),colormap(char(cadena{valor}));
+    tam=size(handles.imagen3);
+    [~,ng]=imhist(handles.imagen3);
+    pri=ng(1);
+    ult=ng(end);
+     set(handles.nivel3,'String',[num2str(pri),',',num2str(ult)]);
+     set(handles.nivel3,'FontWeight','bold');
+     set(handles.dim3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+     set(handles.dim3,'FontWeight','bold');
+end
+end
 
 % --- Executes on button press in Submuestreo.
 function Submuestreo_Callback(hObject, eventdata, handles)
