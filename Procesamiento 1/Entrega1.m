@@ -22,7 +22,7 @@ function varargout = Entrega1(varargin)
 
 % Edit the above text to modify the response to help Entrega1
 
-% Last Modified by GUIDE v2.5 06-Nov-2013 11:43:28
+% Last Modified by GUIDE v2.5 07-Nov-2013 23:58:42
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -205,105 +205,110 @@ elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
 elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
     imagen=handles.ImagenOR3;
 end
-valor=get(handles.Colores,'Value');
-cadena=get(handles.Colores,'String');
+valor=get(handles.MapColor,'Value');
+cadena=get(handles.MapColor,'String');
+
 %if de factor o de tamaño
-if(get(handles.Radiob_Factor,'Value')==get(handles.Radiob_Factor,'Max'))
-factor = str2double(get(handles.Text_Factor, 'String'));
-[filas columnas]=size(imagen);
-filas=filas*str2double(get(handles.Text_Factor, 'String'));
-columnas=columnas*str2double(get(handles.Text_Factor, 'String'));
-valor2=get(handles.Tipo_Interp,'Value');
+if(get(handles.InterBotonF,'Value')==get(handles.InterBotonF,'Max'))
+    [filas columnas]=size(imagen);
+    filas=filas*str2double(get(handles.InputFactor, 'String'));
+    columnas=columnas*str2double(get(handles.InputFactor, 'String'));
+    valor2=get(handles.OpcionInter,'Value');
     switch valor2
-    case 1
-        img_interpolada=imresize(imagen,[filas columnas],'nearest');
-    case 2
-        img_interpolada=imresize(imagen,[filas columnas],'bilinear');
-    case 3
-        img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+        case 1
+            img_interpolada=imresize(imagen,[filas columnas],'nearest');
+        case 2
+            img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+        case 3
+            img_interpolada=imresize(imagen,[filas columnas],'bicubic');
     end
-handles.ImagenInterpoladaFac = img_interpolada;
-if(get(handles.Radiob_ImDestino1,'Value')==get(handles.Radiob_ImDestino1,'Max'))
-    handles.imagen1=handles.ImagenInterpoladaFac;
-    imshow(handles.imagen1,'parent',handles.Imagen1),colormap(char(cadena{valor}));
-    tam=size(handles.imagen1);
-    [~,ng]=imhist(handles.imagen1);
-    pri=ng(1);
-    ult=ng(end);
-     set(handles.nivel1,'String',[num2str(pri),',',num2str(ult)]);
-     set(handles.nivel1,'FontWeight','bold');
-     set(handles.dim1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-     set(handles.dim1,'FontWeight','bold');
-elseif(get(handles.Radiob_ImDestino2,'Value')==get(handles.Radiob_ImDestino2,'Max'))
-    handles.imagen2=handles.ImagenInterpoladaFac;
-    imshow(handles.imagen2,'parent',handles.Imagen2),colormap(char(cadena{valor}));
-    tam=size(handles.imagen2);
-    [~,ng]=imhist(handles.imagen2);
-    pri=ng(1);
-    ult=ng(end);
-     set(handles.nivel2,'String',[num2str(pri),',',num2str(ult)]);
-     set(handles.nivel2,'FontWeight','bold');
-     set(handles.dim2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-     set(handles.dim2,'FontWeight','bold');
-elseif(get(handles.Radiob_ImDestino3,'Value')==get(handles.Radiob_ImDestino3,'Max'))
-    handles.imagen3=handles.ImagenInterpoladaFac;
-    imshow(handles.imagen3,'parent',handles.Imagen3),colormap(char(cadena{valor}));
-    tam=size(handles.imagen3);
-    [~,ng]=imhist(handles.imagen3);
-    pri=ng(1);
-    ult=ng(end);
-     set(handles.nivel3,'String',[num2str(pri),',',num2str(ult)]);
-     set(handles.nivel3,'FontWeight','bold');
-     set(handles.dim3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-     set(handles.dim3,'FontWeight','bold');
-end
-elseif(get(handles.Radiob_Tam,'Value')==get(handles.Radiob_Tam,'Max'))
-    filas=str2double(get(handles.Valor_Filas,'String'));
-    columnas = str2double(get(handles.Valor_Columnas,'String'));
-    valor2=get(handles.Tipo_Interp,'Value');
+    
+    if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+        axes(handles.IMG1);%activo handles.IMG1
+        handles.ImagenOR1=img_interpolada;
+        imshow(handles.ImagenOR1),axis off;
+        tam=size(handles.ImagenOR1);
+        pri=min(min(handles.ImagenOR1));
+        ult=max(max(handles.ImagenOR1));
+        set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+        set(handles.Nivel1,'FontWeight','bold');
+        set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size1,'FontWeight','bold');
+    elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+        axes(handles.IMG2);%activo handles.IMG2
+        handles.ImagenOR2=img_interpolada;
+        imshow(handles.ImagenOR2),axis off;
+        tam=size(handles.ImagenOR2);
+        [~,ng]=imhist(handles.ImagenOR2);
+        pri=ng(1);
+        ult=ng(end);
+        set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+        set(handles.Nivel2,'FontWeight','bold');
+        set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size2,'FontWeight','bold');
+    elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+        axes(handles.IMG3);%activo handles.IMG3
+        handles.ImagenOR3=img_interpolada;
+        imshow(handles.ImagenOR3),axis off;
+        [~,ng]=imhist(handles.ImagenOR3);
+        tam=size(handles.ImagenOR3);
+        pri=ng(1);
+        ult=ng(end);
+        set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+        set(handles.Nivel3,'FontWeight','bold');
+        set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size3,'FontWeight','bold');
+    end 
+elseif(get(handles.InterBotonT,'Value')==get(handles.InterBotonT,'Max'))
+    filas=str2double(get(handles.InputFilas,'String'));
+    columnas = str2double(get(handles.InputColumnas,'String'));
+    valor2=get(handles.OpcionInter,'Value');
+    
     switch valor2
-    case 1
-        img_interpolada=imresize(imagen,[filas columnas],'nearest');
-    case 2
-        img_interpolada=imresize(imagen,[filas columnas],'bilinear');
-    case 3
-        img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+        case 1
+            img_interpolada=imresize(imagen,[filas columnas],'nearest');
+        case 2
+            img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+        case 3
+            img_interpolada=imresize(imagen,[filas columnas],'bicubic');
     end
-handles.ImagenInterpoladaFac = img_interpolada;
-if(get(handles.Radiob_ImDestino1,'Value')==get(handles.Radiob_ImDestino1,'Max'))
-    handles.imagen1=handles.ImagenInterpoladaFac;
-    imshow(handles.imagen1,'parent',handles.Imagen1),colormap(char(cadena{valor}));
-    tam=size(handles.imagen1);
-    [~,ng]=imhist(handles.imagen1);
-    pri=ng(1);
-    ult=ng(end);
-     set(handles.nivel1,'String',[num2str(pri),',',num2str(ult)]);
-     set(handles.nivel1,'FontWeight','bold');
-     set(handles.dim1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-     set(handles.dim1,'FontWeight','bold');
-elseif(get(handles.Radiob_ImDestino2,'Value')==get(handles.Radiob_ImDestino2,'Max'))
-    handles.imagen2=handles.ImagenInterpoladaFac;
-    imshow(handles.imagen2,'parent',handles.Imagen2),colormap(char(cadena{valor}));
-    tam=size(handles.imagen2);
-    [~,ng]=imhist(handles.imagen2);
-    pri=ng(1);
-    ult=ng(end);
-     set(handles.nivel2,'String',[num2str(pri),',',num2str(ult)]);
-     set(handles.nivel2,'FontWeight','bold');
-     set(handles.dim2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-     set(handles.dim2,'FontWeight','bold');
-elseif(get(handles.Radiob_ImDestino3,'Value')==get(handles.Radiob_ImDestino3,'Max'))
-    handles.imagen3=handles.ImagenInterpoladaFac;
-    imshow(handles.imagen3,'parent',handles.Imagen3),colormap(char(cadena{valor}));
-    tam=size(handles.imagen3);
-    [~,ng]=imhist(handles.imagen3);
-    pri=ng(1);
-    ult=ng(end);
-     set(handles.nivel3,'String',[num2str(pri),',',num2str(ult)]);
-     set(handles.nivel3,'FontWeight','bold');
-     set(handles.dim3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-     set(handles.dim3,'FontWeight','bold');
-end
+    
+     if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+        axes(handles.IMG1);%activo handles.IMG1
+        handles.ImagenOR1=img_interpolada;
+        imshow(handles.ImagenOR1),axis off;
+        tam=size(handles.ImagenOR1);
+        pri=min(min(handles.ImagenOR1));
+        ult=max(max(handles.ImagenOR1));
+        set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+        set(handles.Nivel1,'FontWeight','bold');
+        set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size1,'FontWeight','bold');
+    elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+        axes(handles.IMG2);%activo handles.IMG2
+        handles.ImagenOR2=img_interpolada;
+        imshow(handles.ImagenOR2),axis off;
+        tam=size(handles.ImagenOR2);
+        [~,ng]=imhist(handles.ImagenOR2);
+        pri=ng(1);
+        ult=ng(end);
+        set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+        set(handles.Nivel2,'FontWeight','bold');
+        set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size2,'FontWeight','bold');
+    elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+        axes(handles.IMG3);%activo handles.IMG3
+        handles.ImagenOR3=img_interpolada;
+        imshow(handles.ImagenOR3),axis off;
+        [~,ng]=imhist(handles.ImagenOR3);
+        tam=size(handles.ImagenOR3);
+        pri=ng(1);
+        ult=ng(end);
+        set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+        set(handles.Nivel3,'FontWeight','bold');
+        set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size3,'FontWeight','bold');
+    end 
 end
 
 % --- Executes on button press in Submuestreo.
