@@ -22,7 +22,7 @@ function varargout = Entrega1(varargin)
 
 % Edit the above text to modify the response to help Entrega1
 
-% Last Modified by GUIDE v2.5 09-Nov-2013 13:56:01
+% Last Modified by GUIDE v2.5 09-Nov-2013 19:09:44
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -89,6 +89,10 @@ function Entrega1_OpeningFcn(hObject, eventdata, handles, varargin)
      handles.CargaIMG1=0;
      handles.CargaIMG2=0;
      handles.CargaIMG3=0;
+     
+     handles.Barra1=1;
+     handles.Barra2=1;
+     handles.Barra3=1;
     % Choose default command line output for Entrega1
     handles.output = hObject;
 
@@ -136,6 +140,7 @@ function Cargar_Callback(hObject, eventdata, handles)
         handles.ImagenOR1=handles.ImagenOr;%guardo la imagen 
         handles.ImagenRest1=handles.ImagenOr;
         imshow(handles.ImagenOR1),axis off;
+        axis image;
         pri=min(min(handles.ImagenOR1));
         ult=max(max(handles.ImagenOR1));
         set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
@@ -566,6 +571,90 @@ function OpcionAVG_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of OpcionAVG
 
 
+% --- Executes on button press in BarraIMG1.
+function BarraIMG1_Callback(hObject, eventdata, handles)
+% hObject    handle to BarraIMG1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+    if (handles.Barra1 == 1)
+        % Mostramos la imagen
+        handles.Barra1=0;
+        axes(handles.IMG1);
+        imagesc(handles.ImagenOR1);
+        axis off;
+        axis image;
+        % Mostramos la barra de color abajo
+        colorbar('location','southoutside');
+    elseif (handles.Barra1 == 0)
+        % Mostramos la imagen
+        axes(handles.IMG1);
+        cla(handles.IMG1,'reset')
+        handles.Barra1=1;
+        imagesc(handles.ImagenOR1);
+        axis off;
+        axis image;
+        % Ocultamos la barra de color
+        colorbar('hide');
+    end
+guidata(hObject,handles);
+
+
+% --- Executes on button press in BarraIMG2.
+function BarraIMG2_Callback(hObject, eventdata, handles)
+% hObject    handle to BarraIMG2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+    if (handles.Barra2 == 1)
+        % Mostramos la imagen
+        handles.Barra2=0;
+        axes(handles.IMG2);
+        imagesc(handles.ImagenOR2);
+        axis off;
+        axis image;
+        % Mostramos la barra de color abajo
+        colorbar('location','southoutside');
+    elseif (handles.Barra2 == 0)
+        % Mostramos la imagen
+        axes(handles.IMG2);
+        cla(handles.IMG2,'reset')
+        handles.Barra2=1;
+        imagesc(handles.ImagenOR2);
+        axis off;
+        axis image;
+        % Ocultamos la barra de color
+        colorbar('hide');
+    end
+guidata(hObject,handles);
+
+
+% --- Executes on button press in BarraIMG3.
+function BarraIMG3_Callback(hObject, eventdata, handles)
+% hObject    handle to BarraIMG3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+    if (handles.Barra3 == 1)
+        % Mostramos la imagen
+        handles.Barra3=0;
+        axes(handles.IMG3);
+        imagesc(handles.ImagenOR3);
+        axis off;
+        axis image;
+        % Mostramos la barra de color abajo
+        colorbar('location','southoutside');
+    elseif (handles.Barra3 == 0)
+        % Mostramos la imagen
+        axes(handles.IMG3);
+        cla(handles.IMG3,'reset')
+        handles.Barra3=1;
+        imagesc(handles.ImagenOR3);
+        axis off;
+        axis image;
+        % Ocultamos la barra de color
+        colorbar('hide');
+    end
+guidata(hObject,handles);
+
 % --- Executes on button press in TamIMG1.
 function TamIMG1_Callback(hObject, eventdata, handles)
 % hObject    handle to TamIMG1 (see GCBO)
@@ -576,33 +665,12 @@ function TamIMG1_Callback(hObject, eventdata, handles)
 figure('Name','Imagen a Tamaño Real','NumberTitle','off'), imshow(handles.ImagenOR1),axis off;
 
 
-% --- Executes on button press in pushbutton6.
-function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on button press in pushbutton7.
-function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton7 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
 % --- Executes on button press in TamIMG2.
 function TamIMG2_Callback(hObject, eventdata, handles)
 % hObject    handle to TamIMG2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-figure('Name','Imagen a Tamaño Real','NumberTitle','off'), imshow(handles.ImagenOR1),axis off;
-
-% --- Executes on button press in pushbutton9.
-function pushbutton9_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton9 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
+figure('Name','Imagen a Tamaño Real','NumberTitle','off'), imshow(handles.ImagenOR2),axis off;
 
 % --- Executes on button press in TamIMG3.
 function TamIMG3_Callback(hObject, eventdata, handles)
