@@ -22,7 +22,7 @@ function varargout = Entrega1(varargin)
 
 % Edit the above text to modify the response to help Entrega1
 
-% Last Modified by GUIDE v2.5 09-Nov-2013 19:09:44
+% Last Modified by GUIDE v2.5 10-Nov-2013 09:58:17
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -85,6 +85,18 @@ function Entrega1_OpeningFcn(hObject, eventdata, handles, varargin)
      set(handles.TamIMG1,'CData',g);
      set(handles.TamIMG2,'CData',g);
      set(handles.TamIMG3,'CData',g);
+     
+     [a,map]=imread('tool_colorbar.jpg');
+     [r,c,d]=size(a);
+
+     x=ceil(r/38);
+     y=ceil(c/51);
+     g=a(1:x:end,1:y:end,:);
+     g(g==255)=5.5*255;
+
+     set(handles.BarraIMG1,'CData',g);
+     set(handles.BarraIMG2,'CData',g);
+     set(handles.BarraIMG3,'CData',g);
      
      handles.CargaIMG1=0;
      handles.CargaIMG2=0;
@@ -732,3 +744,33 @@ function Guardar_Callback(hObject, eventdata, handles)
 % hObject    handle to Guardar (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in MSE.
+function MSE_Callback(hObject, eventdata, handles)
+% hObject    handle to MSE (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+
+function InputMSE_Callback(hObject, eventdata, handles)
+% hObject    handle to InputMSE (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of InputMSE as text
+%        str2double(get(hObject,'String')) returns contents of InputMSE as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function InputMSE_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to InputMSE (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
