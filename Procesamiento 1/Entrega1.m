@@ -22,7 +22,7 @@ function varargout = Entrega1(varargin)
 
 % Edit the above text to modify the response to help Entrega1
 
-% Last Modified by GUIDE v2.5 10-Nov-2013 09:58:17
+% Last Modified by GUIDE v2.5 10-Nov-2013 10:09:09
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -52,7 +52,7 @@ function Entrega1_OpeningFcn(hObject, eventdata, handles, varargin)
     % handles    structure with handles and user data (see GUIDATA)
     % varargin   command line arguments to Entrega1 (see VARARGIN)
 
-     [a,map]=imread('file_open.jpg');
+     [a,~]=imread('file_open.jpg');
      [r,c,d]=size(a);
 
      x=ceil(r/38);
@@ -135,241 +135,245 @@ function Cargar_Callback(hObject, eventdata, handles)
     [FileName,PathName] = uigetfile('*.png;*.tif;*.jpg;*.jpeg;*.tiff;*.pgm;*pcx;*.bmp');
 
     archivo = [PathName,FileName];
-    handles.ImagenOr = imread(archivo);
+    [~, c1]=size(FileName);
+    [~, c2]=size([1]);
+    if(c1 ~= c2)
+        handles.ImagenOr = imread(archivo);
 
-    [~ , ~, color]= size (handles.ImagenOr);
-    if (color > 1)
-        handles.ImagenOr = rgb2gray(handles.ImagenOr);
-    end
-    handles.TamanoOriginal= size(handles.ImagenOr);
-    %se obtiene el tamaño de la imagen
-    tam=size(handles.ImagenOr);
-    colormap(gray(256));
+        [~ , ~, color]= size (handles.ImagenOr);
+        if (color > 1)
+            handles.ImagenOr = rgb2gray(handles.ImagenOr);
+        end
+        handles.TamanoOriginal= size(handles.ImagenOr);
+        %se obtiene el tamaño de la imagen
+        tam=size(handles.ImagenOr);
+        colormap(gray(256));
 
-    if(get(handles.OpcionIMG1,'Value') == get(handles.OpcionIMG1,'Max'))
-        axes(handles.IMG1);%activo handles.IMG1
-        handles.CargaIMG1=1;
-        handles.ImagenOR1=handles.ImagenOr;%guardo la imagen 
-        handles.ImagenRest1=handles.ImagenOr;
-        imshow(handles.ImagenOR1),axis off;
-        axis image;
-        pri=min(min(handles.ImagenOR1));
-        ult=max(max(handles.ImagenOR1));
-        set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
-        set(handles.Nivel1,'FontWeight','bold');
-        set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size1,'FontWeight','bold');
-    elseif(get(handles.OpcionIMG2,'Value') == get(handles.OpcionIMG2,'Max'))
-        axes(handles.IMG2);
-        handles.CargaIMG2=1;
-        handles.ImagenOR2=handles.ImagenOr;%guardo la imagen
-        handles.ImagenRest2=handles.ImagenOr;
-        imshow(handles.ImagenOR2),axis off;
-        [~,ng]=imhist(handles.ImagenOR2);
-        pri=ng(1);
-        ult=ng(end);
-        set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
-        set(handles.Nivel2,'FontWeight','bold');
-        set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size2,'FontWeight','bold');
-    elseif(get(handles.OpcionIMG3,'Value') == get(handles.OpcionIMG3,'Max'))
-        axes(handles.IMG3);
-        handles.CargaIMG3=1;
-        handles.ImagenOR3=handles.ImagenOr;%guardo la imagen 
-        handles.ImagenRest3=handles.ImagenOr;
-        imshow(handles.ImagenOR3),axis off;
-        [~,ng]=imhist(handles.ImagenOR3);
-        pri=ng(1);
-        ult=ng(end);
-        set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
-        set(handles.Nivel3,'FontWeight','bold');
-        set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size3,'FontWeight','bold');
+        if(get(handles.OpcionIMG1,'Value') == get(handles.OpcionIMG1,'Max'))
+            axes(handles.IMG1);%activo handles.IMG1
+            handles.CargaIMG1=1;
+            handles.ImagenOR1=handles.ImagenOr;%guardo la imagen 
+            handles.ImagenRest1=handles.ImagenOr;
+            imshow(handles.ImagenOR1),axis off;
+            axis image;
+            pri=min(min(handles.ImagenOR1));
+            ult=max(max(handles.ImagenOR1));
+            set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+            set(handles.Nivel1,'FontWeight','bold');
+            set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size1,'FontWeight','bold');
+        elseif(get(handles.OpcionIMG2,'Value') == get(handles.OpcionIMG2,'Max'))
+            axes(handles.IMG2);
+            handles.CargaIMG2=1;
+            handles.ImagenOR2=handles.ImagenOr;%guardo la imagen
+            handles.ImagenRest2=handles.ImagenOr;
+            imshow(handles.ImagenOR2),axis off;
+            [~,ng]=imhist(handles.ImagenOR2);
+            pri=ng(1);
+            ult=ng(end);
+            set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+            set(handles.Nivel2,'FontWeight','bold');
+            set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size2,'FontWeight','bold');
+        elseif(get(handles.OpcionIMG3,'Value') == get(handles.OpcionIMG3,'Max'))
+            axes(handles.IMG3);
+            handles.CargaIMG3=1;
+            handles.ImagenOR3=handles.ImagenOr;%guardo la imagen 
+            handles.ImagenRest3=handles.ImagenOr;
+            imshow(handles.ImagenOR3),axis off;
+            [~,ng]=imhist(handles.ImagenOR3);
+            pri=ng(1);
+            ult=ng(end);
+            set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+            set(handles.Nivel3,'FontWeight','bold');
+            set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size3,'FontWeight','bold');
+        end
     end
     guidata(hObject, handles);
 
 
 % --- Executes on selection change in MapColor.
 function MapColor_Callback(hObject, eventdata, handles)
-% hObject    handle to MapColor (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+    % hObject    handle to MapColor (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns MapColor contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from MapColor
-Valor= get(hObject,'Value');
-Cadena= get(hObject, 'String');
-handles.MapColores=Cadena;
-colormap(char(Cadena{Valor}));
+    % Hints: contents = cellstr(get(hObject,'String')) returns MapColor contents as cell array
+    %        contents{get(hObject,'Value')} returns selected item from MapColor
+    Valor= get(hObject,'Value');
+    Cadena= get(hObject, 'String');
+    handles.MapColores=Cadena;
+    colormap(char(Cadena{Valor}));
 
 
 % --- Executes during object creation, after setting all properties.
 function MapColor_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to MapColor (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
+    % hObject    handle to MapColor (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+    % Hint: popupmenu controls usually have a white background on Windows.
+    %       See ISPC and COMPUTER.
+    if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+        set(hObject,'BackgroundColor','white');
+    end
 
 
 % --- Executes on button press in Diferencia.
 function Diferencia_Callback(hObject, eventdata, handles)
-% hObject    handle to Diferencia (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-%elijo imagenes para realizar la diferencia
-%Origen
-if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
-    ImagenOrigen=handles.ImagenOR1;
-elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
-    ImagenOrigen=handles.ImagenOR2;
-elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
-    ImagenOrigen=handles.ImagenOR3;
-end
-%Destino
-if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
-    ImagenDestino=handles.ImagenOR1;
-elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
-    ImagenDestino=handles.ImagenOR2;
-elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
-    ImagenDestino=handles.ImagenOR3;
-end
-tam1 = size(ImagenOrigen);
-tam2 = size(ImagenDestino);
-if(tam1 == tam2)
+    % hObject    handle to Diferencia (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+    %elijo imagenes para realizar la diferencia
+    %Origen
+    if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
+        ImagenOrigen=handles.ImagenOR1;
+    elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
+        ImagenOrigen=handles.ImagenOR2;
+    elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
+        ImagenOrigen=handles.ImagenOR3;
+    end
+    %Destino
+    if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+        ImagenDestino=handles.ImagenOR1;
+    elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+        ImagenDestino=handles.ImagenOR2;
+    elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+        ImagenDestino=handles.ImagenOR3;
+    end
+    tam1 = size(ImagenOrigen);
+    tam2 = size(ImagenDestino);
+    if(tam1 == tam2)
 
-   handles.ImagenDiferencia = double(ImagenOrigen) - double(ImagenDestino);
-   figure('Name','Imagen Diferencia','NumberTitle','off'),imagesc(handles.ImagenDiferencia),colormap(gray(256)),handles.BarraColor,axis off;
-else
-    errordlg('Las imagenes deben de tener el mismo tamaño');
-end
-guidata(hObject, handles);
+       handles.ImagenDiferencia = double(ImagenOrigen) - double(ImagenDestino);
+       figure('Name','Imagen Diferencia','NumberTitle','off'),imagesc(handles.ImagenDiferencia),colormap(gray(256)),handles.BarraColor,axis off;
+    else
+        errordlg('Las imagenes deben de tener el mismo tamaño');
+    end
+    guidata(hObject, handles);
 
 
 % --- Executes on button press in Interpolacion.
 function Interpolacion_Callback(hObject, eventdata, handles)
-% hObject    handle to Interpolacion (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
-    imagen=handles.ImagenOR1;
-elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
-    imagen=handles.ImagenOR2;
-elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
-    imagen=handles.ImagenOR3;
-end
-valor=get(handles.MapColor,'Value');
-cadena=get(handles.MapColor,'String');
+    % hObject    handle to Interpolacion (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+    if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
+        imagen=handles.ImagenOR1;
+    elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
+        imagen=handles.ImagenOR2;
+    elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
+        imagen=handles.ImagenOR3;
+    end
+    %valor=get(handles.MapColor,'Value');
+    %cadena=get(handles.MapColor,'String');
 
-%if de factor o de tamaño
-if(get(handles.InterBotonF,'Value')==get(handles.InterBotonF,'Max'))
-    [filas columnas]=size(imagen);
-    filas=filas*str2double(get(handles.InputFactor, 'String'));
-    columnas=columnas*str2double(get(handles.InputFactor, 'String'));
-    valor2=get(handles.OpcionInter,'Value');
-    switch valor2
-        case 1
-            img_interpolada=imresize(imagen,[filas columnas],'nearest');
-        case 2
-            img_interpolada=imresize(imagen,[filas columnas],'bilinear');
-        case 3
-            img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+    %if de factor o de tamaño
+    if(get(handles.InterBotonF,'Value')==get(handles.InterBotonF,'Max'))
+        [filas columnas]=size(imagen);
+        filas=filas*str2double(get(handles.InputFactor, 'String'));
+        columnas=columnas*str2double(get(handles.InputFactor, 'String'));
+        valor2=get(handles.OpcionInter,'Value');
+        switch valor2
+            case 1
+                img_interpolada=imresize(imagen,[filas columnas],'nearest');
+            case 2
+                img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+            case 3
+                img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+        end
+
+        if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+            axes(handles.IMG1);%activo handles.IMG1
+            handles.CargaIMG1=1;
+            handles.ImagenOR1=img_interpolada;
+            imshow(handles.ImagenOR1),axis off;
+            tam=size(handles.ImagenOR1);
+            pri=min(min(handles.ImagenOR1));
+            ult=max(max(handles.ImagenOR1));
+            set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+            set(handles.Nivel1,'FontWeight','bold');
+            set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size1,'FontWeight','bold');
+        elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+            axes(handles.IMG2);%activo handles.IMG2
+            handles.CargaIMG2=1;
+            handles.ImagenOR2=img_interpolada;
+            imshow(handles.ImagenOR2),axis off;
+            tam=size(handles.ImagenOR2);
+            [~,ng]=imhist(handles.ImagenOR2);
+            pri=ng(1);
+            ult=ng(end);
+            set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+            set(handles.Nivel2,'FontWeight','bold');
+            set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size2,'FontWeight','bold');
+        elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+            axes(handles.IMG3);%activo handles.IMG3
+            handles.CargaIMG3=1;
+            handles.ImagenOR3=img_interpolada;
+            imshow(handles.ImagenOR3),axis off;
+            [~,ng]=imhist(handles.ImagenOR3);
+            tam=size(handles.ImagenOR3);
+            pri=ng(1);
+            ult=ng(end);
+            set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+            set(handles.Nivel3,'FontWeight','bold');
+            set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size3,'FontWeight','bold');
+        end 
+    elseif(get(handles.InterBotonT,'Value')==get(handles.InterBotonT,'Max'))
+        filas=str2double(get(handles.InputFilas,'String'));
+        columnas = str2double(get(handles.InputColumnas,'String'));
+        valor2=get(handles.OpcionInter,'Value');
+
+        switch valor2
+            case 1
+                img_interpolada=imresize(imagen,[filas columnas],'nearest');
+            case 2
+                img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+            case 3
+                img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+        end
+
+         if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+            axes(handles.IMG1);%activo handles.IMG1
+            handles.ImagenOR1=img_interpolada;
+            imshow(handles.ImagenOR1),axis off;
+            tam=size(handles.ImagenOR1);
+            pri=min(min(handles.ImagenOR1));
+            ult=max(max(handles.ImagenOR1));
+            set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+            set(handles.Nivel1,'FontWeight','bold');
+            set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size1,'FontWeight','bold');
+        elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+            axes(handles.IMG2);%activo handles.IMG2
+            handles.ImagenOR2=img_interpolada;
+            imshow(handles.ImagenOR2),axis off;
+            tam=size(handles.ImagenOR2);
+            [~,ng]=imhist(handles.ImagenOR2);
+            pri=ng(1);
+            ult=ng(end);
+            set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+            set(handles.Nivel2,'FontWeight','bold');
+            set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size2,'FontWeight','bold');
+        elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+            axes(handles.IMG3);%activo handles.IMG3
+            handles.ImagenOR3=img_interpolada;
+            imshow(handles.ImagenOR3),axis off;
+            [~,ng]=imhist(handles.ImagenOR3);
+            tam=size(handles.ImagenOR3);
+            pri=ng(1);
+            ult=ng(end);
+            set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+            set(handles.Nivel3,'FontWeight','bold');
+            set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+            set(handles.Size3,'FontWeight','bold');
+        end 
     end
-    
-    if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
-        axes(handles.IMG1);%activo handles.IMG1
-        handles.CargaIMG1=1;
-        handles.ImagenOR1=img_interpolada;
-        imshow(handles.ImagenOR1),axis off;
-        tam=size(handles.ImagenOR1);
-        pri=min(min(handles.ImagenOR1));
-        ult=max(max(handles.ImagenOR1));
-        set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
-        set(handles.Nivel1,'FontWeight','bold');
-        set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size1,'FontWeight','bold');
-    elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
-        axes(handles.IMG2);%activo handles.IMG2
-        handles.CargaIMG2=1;
-        handles.ImagenOR2=img_interpolada;
-        imshow(handles.ImagenOR2),axis off;
-        tam=size(handles.ImagenOR2);
-        [~,ng]=imhist(handles.ImagenOR2);
-        pri=ng(1);
-        ult=ng(end);
-        set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
-        set(handles.Nivel2,'FontWeight','bold');
-        set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size2,'FontWeight','bold');
-    elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
-        axes(handles.IMG3);%activo handles.IMG3
-        handles.CargaIMG3=1;
-        handles.ImagenOR3=img_interpolada;
-        imshow(handles.ImagenOR3),axis off;
-        [~,ng]=imhist(handles.ImagenOR3);
-        tam=size(handles.ImagenOR3);
-        pri=ng(1);
-        ult=ng(end);
-        set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
-        set(handles.Nivel3,'FontWeight','bold');
-        set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size3,'FontWeight','bold');
-    end 
-elseif(get(handles.InterBotonT,'Value')==get(handles.InterBotonT,'Max'))
-    filas=str2double(get(handles.InputFilas,'String'));
-    columnas = str2double(get(handles.InputColumnas,'String'));
-    valor2=get(handles.OpcionInter,'Value');
-    
-    switch valor2
-        case 1
-            img_interpolada=imresize(imagen,[filas columnas],'nearest');
-        case 2
-            img_interpolada=imresize(imagen,[filas columnas],'bilinear');
-        case 3
-            img_interpolada=imresize(imagen,[filas columnas],'bicubic');
-    end
-    
-     if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
-        axes(handles.IMG1);%activo handles.IMG1
-        handles.ImagenOR1=img_interpolada;
-        imshow(handles.ImagenOR1),axis off;
-        tam=size(handles.ImagenOR1);
-        pri=min(min(handles.ImagenOR1));
-        ult=max(max(handles.ImagenOR1));
-        set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
-        set(handles.Nivel1,'FontWeight','bold');
-        set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size1,'FontWeight','bold');
-    elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
-        axes(handles.IMG2);%activo handles.IMG2
-        handles.ImagenOR2=img_interpolada;
-        imshow(handles.ImagenOR2),axis off;
-        tam=size(handles.ImagenOR2);
-        [~,ng]=imhist(handles.ImagenOR2);
-        pri=ng(1);
-        ult=ng(end);
-        set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
-        set(handles.Nivel2,'FontWeight','bold');
-        set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size2,'FontWeight','bold');
-    elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
-        axes(handles.IMG3);%activo handles.IMG3
-        handles.ImagenOR3=img_interpolada;
-        imshow(handles.ImagenOR3),axis off;
-        [~,ng]=imhist(handles.ImagenOR3);
-        tam=size(handles.ImagenOR3);
-        pri=ng(1);
-        ult=ng(end);
-        set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
-        set(handles.Nivel3,'FontWeight','bold');
-        set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-        set(handles.Size3,'FontWeight','bold');
-    end 
-end
 
 % --- Executes on button press in Submuestreo.
 function Submuestreo_Callback(hObject, eventdata, handles)
@@ -384,8 +388,8 @@ elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
     imagen=handles.ImagenOR3;
 end
 
-valor=get(handles.MapColor,'Value');
-cadena=get(handles.MapColor,'String');
+%valor=get(handles.MapColor,'Value');
+%cadena=get(handles.MapColor,'String');
 factor = str2double(get(handles.InputFactor, 'String'));
 
 %se ve si se tiene activada la opcion de promedio
@@ -444,8 +448,6 @@ elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
 end 
  
 
-
-
 % --- Executes on slider movement.
 function BarraColor_Callback(hObject, eventdata, handles)
 % hObject    handle to BarraColor (see GCBO)
@@ -456,18 +458,17 @@ function BarraColor_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine rangeof slider
-barraValor = fix(get(handles.BarraColor,'Value'));
-%se muestra el valor que se escoge
-set(handles.Niveles,'String', barraValor);
-%se obtiene el mapa de color que se tiene
-valor=get(handles.MapColor,'Value');
+    barraValor = fix(get(handles.BarraColor,'Value'));
+    %se muestra el valor que se escoge
+    set(handles.Niveles,'String', barraValor);
+    %se obtiene el mapa de color que se tiene
+    valor=get(handles.MapColor,'Value');
 
-cadena=get(handles.MapColor,'String');
-%se aplica el numero de niveles de color para el mapa que se tiene
-colormap([char(cadena{valor}), '(',num2str(barraValor),')']);
-% Update handles structure
-guidata(hObject, handles);
-
+    cadena=get(handles.MapColor,'String');
+    %se aplica el numero de niveles de color para el mapa que se tiene
+    colormap([char(cadena{valor}), '(',num2str(barraValor),')']);
+    % Update handles structure
+    guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -487,7 +488,6 @@ function OpcionInter_Callback(hObject, eventdata, handles)
 % hObject    handle to OpcionInter (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Hints: contents = cellstr(get(hObject,'String')) returns OpcionInter contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from OpcionInter
 
@@ -510,7 +510,6 @@ function InputFilas_Callback(hObject, eventdata, handles)
 % hObject    handle to InputFilas (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Hints: get(hObject,'String') returns contents of InputFilas as text
 %        str2double(get(hObject,'String')) returns contents of InputFilas as a double
 
@@ -533,7 +532,6 @@ function InputColumnas_Callback(hObject, eventdata, handles)
 % hObject    handle to InputColumnas (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Hints: get(hObject,'String') returns contents of InputColumnas as text
 %        str2double(get(hObject,'String')) returns contents of InputColumnas as a double
 
@@ -556,7 +554,6 @@ function InputFactor_Callback(hObject, eventdata, handles)
 % hObject    handle to InputFactor (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Hints: get(hObject,'String') returns contents of InputFactor as text
 %        str2double(get(hObject,'String')) returns contents of InputFactor as a double
 
@@ -579,7 +576,6 @@ function OpcionAVG_Callback(hObject, eventdata, handles)
 % hObject    handle to OpcionAVG (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Hint: get(hObject,'Value') returns toggle state of OpcionAVG
 
 
@@ -674,22 +670,21 @@ function TamIMG1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 % --- Executes on button press in tamReal1.
 % Mostramos la imagen a tamaño real
-figure('Name','Imagen a Tamaño Real','NumberTitle','off'), imshow(handles.ImagenOR1),axis off;
-
+figure('Name','Imagen a Tamaño Real imagen 1','NumberTitle','off'), imshow(handles.ImagenOR1),axis off;
 
 % --- Executes on button press in TamIMG2.
 function TamIMG2_Callback(hObject, eventdata, handles)
 % hObject    handle to TamIMG2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-figure('Name','Imagen a Tamaño Real','NumberTitle','off'), imshow(handles.ImagenOR2),axis off;
+figure('Name','Imagen a Tamaño Real imagen 2','NumberTitle','off'), imshow(handles.ImagenOR2),axis off;
 
 % --- Executes on button press in TamIMG3.
 function TamIMG3_Callback(hObject, eventdata, handles)
 % hObject    handle to TamIMG3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-figure('Name','Imagen a Tamaño Real','NumberTitle','off'), imshow(handles.ImagenOR3),axis off;
+figure('Name','Imagen a Tamaño Real imagen 3','NumberTitle','off'), imshow(handles.ImagenOR3),axis off;
 
 
 % --- Executes on button press in Reset.
@@ -697,6 +692,9 @@ function Reset_Callback(hObject, eventdata, handles)
 % hObject    handle to Reset (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+cla(handles.IMG1,'reset');
+cla(handles.IMG2,'reset');
+cla(handles.IMG3,'reset');
 
 if(handles.CargaIMG1 == 1)
     axes(handles.IMG1);%activo handles.IMG1
@@ -722,7 +720,6 @@ if(handles.CargaIMG2 == 1)
     set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
     set(handles.Size2,'FontWeight','bold');
 end
-%cla(ax,'reset')
 if(handles.CargaIMG3 == 1)
     axes(handles.IMG3);
     handles.CargaIMG3=1;
@@ -744,6 +741,18 @@ function Guardar_Callback(hObject, eventdata, handles)
 % hObject    handle to Guardar (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[FileName,PathName] = uiputfile({'*.jpg';'*.jpeg';'*.pgm';'*pcx';'*.bmp';'*.tiff';'*.tif';'*.png'}, 'Guardar imagen');
+
+if(get(handles.OpcionIMG1,'Value') == get(handles.OpcionIMG1,'Max'))
+    imwrite(handles.IMG1,strcat(PathName,FileName));
+end
+if(get(handles.OpcionIMG2,'Value') == get(handles.OpcionIMG1,'Max'))
+    imwrite(handles.IMG2,strcat(PathName,FileName));
+end
+if(get(handles.OpcionIMG3,'Value') == get(handles.OpcionIMG1,'Max'))
+    imwrite(handles.IMG3,strcat(PathName,FileName));
+end
+
 
 
 % --- Executes on button press in MSE.
@@ -751,21 +760,40 @@ function MSE_Callback(hObject, eventdata, handles)
 % hObject    handle to MSE (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
+    imagen1=handles.ImagenOR1;
+elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
+    imagen1=handles.ImagenOR2;
+elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
+    imagen1=handles.ImagenOR3;
+end
+
+if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+    imagen2=handles.ImagenOR1;
+elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+    imagen2=handles.ImagenOR2;
+elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+    imagen2=handles.ImagenOR3;
+end
+[filas columnas] = size(imagen1);
+img_error = (double(imagen1) - double(imagen2));
+error = norm(img_error(:))^2/(filas*columnas);
+set(handles.OutMSE,'String',error);
 
 
 
-function InputMSE_Callback(hObject, eventdata, handles)
-% hObject    handle to InputMSE (see GCBO)
+function OutMSE_Callback(hObject, eventdata, handles)
+% hObject    handle to OutMSE (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of InputMSE as text
-%        str2double(get(hObject,'String')) returns contents of InputMSE as a double
+% Hints: get(hObject,'String') returns contents of OutMSE as text
+%        str2double(get(hObject,'String')) returns contents of OutMSE as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function InputMSE_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to InputMSE (see GCBO)
+function OutMSE_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to OutMSE (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
