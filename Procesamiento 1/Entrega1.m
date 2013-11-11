@@ -277,17 +277,17 @@ function Interpolacion_Callback(hObject, eventdata, handles)
         valor2=get(handles.OpcionInter,'Value');
         switch valor2
             case 1
-                img_interpolada=imresize(imagen,[filas columnas],'nearest');
+                IMGinterpolada=imresize(imagen,[filas columnas],'nearest');
             case 2
-                img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+                IMGinterpolada=imresize(imagen,[filas columnas],'bilinear');
             case 3
-                img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+                IMGinterpolada=imresize(imagen,[filas columnas],'bicubic');
         end
-
+        handles.IMGInter=IMGinterpolada;
         if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
             axes(handles.IMG1);%activo handles.IMG1
             handles.CargaIMG1=1;
-            handles.ImagenOR1=img_interpolada;
+            handles.ImagenOR1=handles.IMGInter;
             imshow(handles.ImagenOR1),axis off;
             tam=size(handles.ImagenOR1);
             pri=min(min(handles.ImagenOR1));
@@ -299,7 +299,7 @@ function Interpolacion_Callback(hObject, eventdata, handles)
         elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
             axes(handles.IMG2);%activo handles.IMG2
             handles.CargaIMG2=1;
-            handles.ImagenOR2=img_interpolada;
+            handles.ImagenOR2=handles.IMGInter;
             imshow(handles.ImagenOR2),axis off;
             tam=size(handles.ImagenOR2);
             [~,ng]=imhist(handles.ImagenOR2);
@@ -312,7 +312,7 @@ function Interpolacion_Callback(hObject, eventdata, handles)
         elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
             axes(handles.IMG3);%activo handles.IMG3
             handles.CargaIMG3=1;
-            handles.ImagenOR3=img_interpolada;
+            handles.ImagenOR3=handles.IMGInter;
             imshow(handles.ImagenOR3),axis off;
             [~,ng]=imhist(handles.ImagenOR3);
             tam=size(handles.ImagenOR3);
@@ -330,16 +330,16 @@ function Interpolacion_Callback(hObject, eventdata, handles)
 
         switch valor2
             case 1
-                img_interpolada=imresize(imagen,[filas columnas],'nearest');
+                IMGinterpolada=imresize(imagen,[filas columnas],'nearest');
             case 2
-                img_interpolada=imresize(imagen,[filas columnas],'bilinear');
+                IMGinterpolada=imresize(imagen,[filas columnas],'bilinear');
             case 3
-                img_interpolada=imresize(imagen,[filas columnas],'bicubic');
+                IMGinterpolada=imresize(imagen,[filas columnas],'bicubic');
         end
-
+         handles.IMGInter=IMGinterpolada;
          if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
             axes(handles.IMG1);%activo handles.IMG1
-            handles.ImagenOR1=img_interpolada;
+            handles.ImagenOR1=handles.IMGInter;
             imshow(handles.ImagenOR1),axis off;
             tam=size(handles.ImagenOR1);
             pri=min(min(handles.ImagenOR1));
@@ -350,7 +350,7 @@ function Interpolacion_Callback(hObject, eventdata, handles)
             set(handles.Size1,'FontWeight','bold');
         elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
             axes(handles.IMG2);%activo handles.IMG2
-            handles.ImagenOR2=img_interpolada;
+            handles.ImagenOR2=handles.IMGInter;
             imshow(handles.ImagenOR2),axis off;
             tam=size(handles.ImagenOR2);
             [~,ng]=imhist(handles.ImagenOR2);
@@ -362,7 +362,7 @@ function Interpolacion_Callback(hObject, eventdata, handles)
             set(handles.Size2,'FontWeight','bold');
         elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
             axes(handles.IMG3);%activo handles.IMG3
-            handles.ImagenOR3=img_interpolada;
+            handles.ImagenOR3=handles.IMGInter;
             imshow(handles.ImagenOR3),axis off;
             [~,ng]=imhist(handles.ImagenOR3);
             tam=size(handles.ImagenOR3);
@@ -374,6 +374,7 @@ function Interpolacion_Callback(hObject, eventdata, handles)
             set(handles.Size3,'FontWeight','bold');
         end 
     end
+     guidata(hObject, handles);
 
 % --- Executes on button press in Submuestreo.
 function Submuestreo_Callback(hObject, eventdata, handles)
@@ -401,16 +402,16 @@ factor = str2double(get(handles.InputFactor, 'String'));
       %se convoluciona
       u = imfilter(imagen,h,'replicate','same','conv');
       %se obtiene la imagen
-      img_submuestreada = u(1:factor:size(u, 1), 1:factor:size(u, 2));
+      imgsubmuestreada = u(1:factor:size(u, 1), 1:factor:size(u, 2));
     else
       %si no se emborrona se tiene la imagen original
-      img_submuestreada = imagen(1:factor:size(imagen,1), 1:factor:size(imagen, 2));
+      imgsubmuestreada = imagen(1:factor:size(imagen,1), 1:factor:size(imagen, 2));
     end
-    
+    handles.IMGSub=imgsubmuestreada;
 if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
     axes(handles.IMG1);%activo handles.IMG1
     %handles.CargaIMG1=1;
-    handles.ImagenOR1=img_submuestreada;
+    handles.ImagenOR1=handles.IMGSub;
     imshow(handles.ImagenOR1),axis off;
     tam=size(handles.ImagenOR1);
     pri=min(min(handles.ImagenOR1));
@@ -422,7 +423,7 @@ if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
 elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
     axes(handles.IMG2);%activo handles.IMG2
     %handles.CargaIMG2=1;
-    handles.ImagenOR2=img_submuestreada;
+    handles.ImagenOR2=handles.IMGSub;
     imshow(handles.ImagenOR2),axis off;
     tam=size(handles.ImagenOR2);
     [~,ng]=imhist(handles.ImagenOR2);
@@ -435,7 +436,7 @@ elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
 elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
     axes(handles.IMG3);%activo handles.IMG3
     %handles.CargaIMG3=1;
-    handles.ImagenOR3=img_submuestreada;
+    handles.ImagenOR3=handles.IMGSub;
     imshow(handles.ImagenOR3),axis off;
     [~,ng]=imhist(handles.ImagenOR3);
     tam=size(handles.ImagenOR3);
@@ -446,6 +447,7 @@ elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
     set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
     set(handles.Size3,'FontWeight','bold');
 end 
+ guidata(hObject, handles);
  
 
 % --- Executes on slider movement.
