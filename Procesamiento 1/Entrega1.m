@@ -271,183 +271,191 @@ function Interpolacion_Callback(hObject, eventdata, handles)
 
     %if de factor o de tamaño
     if(get(handles.InterBotonF,'Value')==get(handles.InterBotonF,'Max'))
-        [filas columnas]=size(imagen);
-        filas=filas*str2double(get(handles.InputFactor, 'String'));
-        columnas=columnas*str2double(get(handles.InputFactor, 'String'));
-        valor2=get(handles.OpcionInter,'Value');
-        switch valor2
-            case 1
-                IMGinterpolada=imresize(imagen,[filas columnas],'nearest');
-            case 2
-                IMGinterpolada=imresize(imagen,[filas columnas],'bilinear');
-            case 3
-                IMGinterpolada=imresize(imagen,[filas columnas],'bicubic');
+        if get(handles.InputFactor, 'String')==' '
+            [filas columnas]=size(imagen);
+            filas=filas*str2double(get(handles.InputFactor, 'String'));
+            columnas=columnas*str2double(get(handles.InputFactor, 'String'));
+            valor2=get(handles.OpcionInter,'Value');
+            switch valor2
+                case 1
+                    IMGinterpolada=imresize(imagen,[filas columnas],'nearest');
+                case 2
+                    IMGinterpolada=imresize(imagen,[filas columnas],'bilinear');
+                case 3
+                    IMGinterpolada=imresize(imagen,[filas columnas],'bicubic');
+            end
+            handles.IMGInter=IMGinterpolada;
+            if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+                axes(handles.IMG1);%activo handles.IMG1
+                handles.CargaIMG1=1;
+                handles.ImagenOR1=handles.IMGInter;
+                imshow(handles.ImagenOR1),axis off;
+                tam=size(handles.ImagenOR1);
+                pri=min(min(handles.ImagenOR1));
+                ult=max(max(handles.ImagenOR1));
+                set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+                set(handles.Nivel1,'FontWeight','bold');
+                set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+                set(handles.Size1,'FontWeight','bold');
+            elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+                axes(handles.IMG2);%activo handles.IMG2
+                handles.CargaIMG2=1;
+                handles.ImagenOR2=handles.IMGInter;
+                imshow(handles.ImagenOR2),axis off;
+                tam=size(handles.ImagenOR2);
+                [~,ng]=imhist(handles.ImagenOR2);
+                pri=ng(1);
+                ult=ng(end);
+                set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+                set(handles.Nivel2,'FontWeight','bold');
+                set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+                set(handles.Size2,'FontWeight','bold');
+            elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+                axes(handles.IMG3);%activo handles.IMG3
+                handles.CargaIMG3=1;
+                handles.ImagenOR3=handles.IMGInter;
+                imshow(handles.ImagenOR3),axis off;
+                [~,ng]=imhist(handles.ImagenOR3);
+                tam=size(handles.ImagenOR3);
+                pri=ng(1);
+                ult=ng(end);
+                set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+                set(handles.Nivel3,'FontWeight','bold');
+                set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+                set(handles.Size3,'FontWeight','bold');
+            end 
+        else
+            errordlg('Inserte el factor');
         end
-        handles.IMGInter=IMGinterpolada;
-        if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
-            axes(handles.IMG1);%activo handles.IMG1
-            handles.CargaIMG1=1;
-            handles.ImagenOR1=handles.IMGInter;
-            imshow(handles.ImagenOR1),axis off;
-            tam=size(handles.ImagenOR1);
-            pri=min(min(handles.ImagenOR1));
-            ult=max(max(handles.ImagenOR1));
-            set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
-            set(handles.Nivel1,'FontWeight','bold');
-            set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-            set(handles.Size1,'FontWeight','bold');
-        elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
-            axes(handles.IMG2);%activo handles.IMG2
-            handles.CargaIMG2=1;
-            handles.ImagenOR2=handles.IMGInter;
-            imshow(handles.ImagenOR2),axis off;
-            tam=size(handles.ImagenOR2);
-            [~,ng]=imhist(handles.ImagenOR2);
-            pri=ng(1);
-            ult=ng(end);
-            set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
-            set(handles.Nivel2,'FontWeight','bold');
-            set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-            set(handles.Size2,'FontWeight','bold');
-        elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
-            axes(handles.IMG3);%activo handles.IMG3
-            handles.CargaIMG3=1;
-            handles.ImagenOR3=handles.IMGInter;
-            imshow(handles.ImagenOR3),axis off;
-            [~,ng]=imhist(handles.ImagenOR3);
-            tam=size(handles.ImagenOR3);
-            pri=ng(1);
-            ult=ng(end);
-            set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
-            set(handles.Nivel3,'FontWeight','bold');
-            set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-            set(handles.Size3,'FontWeight','bold');
-        end 
     elseif(get(handles.InterBotonT,'Value')==get(handles.InterBotonT,'Max'))
-        filas=str2double(get(handles.InputFilas,'String'));
-        columnas = str2double(get(handles.InputColumnas,'String'));
-        valor2=get(handles.OpcionInter,'Value');
+        if get(handles.InputFilas, 'String')==' ' |  get(handles.InputColumnas,'String')==' '
+            filas=str2double(get(handles.InputFilas,'String'));
+            columnas = str2double(get(handles.InputColumnas,'String'));
+            valor2=get(handles.OpcionInter,'Value');
 
-        switch valor2
-            case 1
-                IMGinterpolada=imresize(imagen,[filas columnas],'nearest');
-            case 2
-                IMGinterpolada=imresize(imagen,[filas columnas],'bilinear');
-            case 3
-                IMGinterpolada=imresize(imagen,[filas columnas],'bicubic');
+            switch valor2
+                case 1
+                    IMGinterpolada=imresize(imagen,[filas columnas],'nearest');
+                case 2
+                    IMGinterpolada=imresize(imagen,[filas columnas],'bilinear');
+                case 3
+                    IMGinterpolada=imresize(imagen,[filas columnas],'bicubic');
+            end
+             handles.IMGInter=IMGinterpolada;
+             if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+                axes(handles.IMG1);%activo handles.IMG1
+                handles.ImagenOR1=handles.IMGInter;
+                imshow(handles.ImagenOR1),axis off;
+                tam=size(handles.ImagenOR1);
+                pri=min(min(handles.ImagenOR1));
+                ult=max(max(handles.ImagenOR1));
+                set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+                set(handles.Nivel1,'FontWeight','bold');
+                set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+                set(handles.Size1,'FontWeight','bold');
+            elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+                axes(handles.IMG2);%activo handles.IMG2
+                handles.ImagenOR2=handles.IMGInter;
+                imshow(handles.ImagenOR2),axis off;
+                tam=size(handles.ImagenOR2);
+                [~,ng]=imhist(handles.ImagenOR2);
+                pri=ng(1);
+                ult=ng(end);
+                set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+                set(handles.Nivel2,'FontWeight','bold');
+                set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+                set(handles.Size2,'FontWeight','bold');
+            elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+                axes(handles.IMG3);%activo handles.IMG3
+                handles.ImagenOR3=handles.IMGInter;
+                imshow(handles.ImagenOR3),axis off;
+                [~,ng]=imhist(handles.ImagenOR3);
+                tam=size(handles.ImagenOR3);
+                pri=ng(1);
+                ult=ng(end);
+                set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+                set(handles.Nivel3,'FontWeight','bold');
+                set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+                set(handles.Size3,'FontWeight','bold');
+             end
+        else  
+             errordlg('Inserte el Filas/Columnas');
         end
-         handles.IMGInter=IMGinterpolada;
-         if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
-            axes(handles.IMG1);%activo handles.IMG1
-            handles.ImagenOR1=handles.IMGInter;
-            imshow(handles.ImagenOR1),axis off;
-            tam=size(handles.ImagenOR1);
-            pri=min(min(handles.ImagenOR1));
-            ult=max(max(handles.ImagenOR1));
-            set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
-            set(handles.Nivel1,'FontWeight','bold');
-            set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-            set(handles.Size1,'FontWeight','bold');
-        elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
-            axes(handles.IMG2);%activo handles.IMG2
-            handles.ImagenOR2=handles.IMGInter;
-            imshow(handles.ImagenOR2),axis off;
-            tam=size(handles.ImagenOR2);
-            [~,ng]=imhist(handles.ImagenOR2);
-            pri=ng(1);
-            ult=ng(end);
-            set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
-            set(handles.Nivel2,'FontWeight','bold');
-            set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-            set(handles.Size2,'FontWeight','bold');
-        elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
-            axes(handles.IMG3);%activo handles.IMG3
-            handles.ImagenOR3=handles.IMGInter;
-            imshow(handles.ImagenOR3),axis off;
-            [~,ng]=imhist(handles.ImagenOR3);
-            tam=size(handles.ImagenOR3);
-            pri=ng(1);
-            ult=ng(end);
-            set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
-            set(handles.Nivel3,'FontWeight','bold');
-            set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-            set(handles.Size3,'FontWeight','bold');
-        end 
-    end
+     end
      guidata(hObject, handles);
 
 % --- Executes on button press in Submuestreo.
 function Submuestreo_Callback(hObject, eventdata, handles)
-% hObject    handle to Submuestreo (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
-    imagen=handles.ImagenOR1;
-elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
-    imagen=handles.ImagenOR2;
-elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
-    imagen=handles.ImagenOR3;
-end
-
-%valor=get(handles.MapColor,'Value');
-%cadena=get(handles.MapColor,'String');
-factor = str2double(get(handles.InputFactor, 'String'));
-
-%se ve si se tiene activada la opcion de promedio
-    promedio=get(handles.OpcionAVG, 'Value');
-    %si el promedio esta activo
-    if promedio == 1
-      %se crea la mascara
-      h = (ones(factor) )/ (factor^2);
-      %se convoluciona
-      u = imfilter(imagen,h,'replicate','same','conv');
-      %se obtiene la imagen
-      imgsubmuestreada = u(1:factor:size(u, 1), 1:factor:size(u, 2));
-    else
-      %si no se emborrona se tiene la imagen original
-      imgsubmuestreada = imagen(1:factor:size(imagen,1), 1:factor:size(imagen, 2));
+    % hObject    handle to Submuestreo (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+    if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
+        imagen=handles.ImagenOR1;
+    elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
+        imagen=handles.ImagenOR2;
+    elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
+        imagen=handles.ImagenOR3;
     end
-    handles.IMGSub=imgsubmuestreada;
-if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
-    axes(handles.IMG1);%activo handles.IMG1
-    %handles.CargaIMG1=1;
-    handles.ImagenOR1=handles.IMGSub;
-    imshow(handles.ImagenOR1),axis off;
-    tam=size(handles.ImagenOR1);
-    pri=min(min(handles.ImagenOR1));
-    ult=max(max(handles.ImagenOR1));
-    set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
-    set(handles.Nivel1,'FontWeight','bold');
-    set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-    set(handles.Size1,'FontWeight','bold');
-elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
-    axes(handles.IMG2);%activo handles.IMG2
-    %handles.CargaIMG2=1;
-    handles.ImagenOR2=handles.IMGSub;
-    imshow(handles.ImagenOR2),axis off;
-    tam=size(handles.ImagenOR2);
-    [~,ng]=imhist(handles.ImagenOR2);
-    pri=ng(1);
-    ult=ng(end);
-    set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
-    set(handles.Nivel2,'FontWeight','bold');
-    set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-    set(handles.Size2,'FontWeight','bold');
-elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
-    axes(handles.IMG3);%activo handles.IMG3
-    %handles.CargaIMG3=1;
-    handles.ImagenOR3=handles.IMGSub;
-    imshow(handles.ImagenOR3),axis off;
-    [~,ng]=imhist(handles.ImagenOR3);
-    tam=size(handles.ImagenOR3);
-    pri=ng(1);
-    ult=ng(end);
-    set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
-    set(handles.Nivel3,'FontWeight','bold');
-    set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
-    set(handles.Size3,'FontWeight','bold');
-end 
- guidata(hObject, handles);
+
+    %valor=get(handles.MapColor,'Value');
+    %cadena=get(handles.MapColor,'String');
+    factor = str2double(get(handles.InputFactor, 'String'));
+
+    %se ve si se tiene activada la opcion de promedio
+        promedio=get(handles.OpcionAVG, 'Value');
+        %si el promedio esta activo
+        if promedio == 1
+          %se crea la mascara
+          h = (ones(factor) )/ (factor^2);
+          %se convoluciona
+          u = imfilter(imagen,h,'replicate','same','conv');
+          %se obtiene la imagen
+          imgsubmuestreada = u(1:factor:size(u, 1), 1:factor:size(u, 2));
+        else
+          %si no se emborrona se tiene la imagen original
+          imgsubmuestreada = imagen(1:factor:size(imagen,1), 1:factor:size(imagen, 2));
+        end
+        handles.IMGSub=imgsubmuestreada;
+    if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+        axes(handles.IMG1);%activo handles.IMG1
+        %handles.CargaIMG1=1;
+        handles.ImagenOR1=handles.IMGSub;
+        imshow(handles.ImagenOR1),axis off;
+        tam=size(handles.ImagenOR1);
+        pri=min(min(handles.ImagenOR1));
+        ult=max(max(handles.ImagenOR1));
+        set(handles.Nivel1,'String', [num2str(pri),'-',num2str(ult)] );
+        set(handles.Nivel1,'FontWeight','bold');
+        set(handles.Size1,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size1,'FontWeight','bold');
+    elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+        axes(handles.IMG2);%activo handles.IMG2
+        %handles.CargaIMG2=1;
+        handles.ImagenOR2=handles.IMGSub;
+        imshow(handles.ImagenOR2),axis off;
+        tam=size(handles.ImagenOR2);
+        [~,ng]=imhist(handles.ImagenOR2);
+        pri=ng(1);
+        ult=ng(end);
+        set(handles.Nivel2,'String',[num2str(pri),',',num2str(ult)]);
+        set(handles.Nivel2,'FontWeight','bold');
+        set(handles.Size2,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size2,'FontWeight','bold');
+    elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+        axes(handles.IMG3);%activo handles.IMG3
+        %handles.CargaIMG3=1;
+        handles.ImagenOR3=handles.IMGSub;
+        imshow(handles.ImagenOR3),axis off;
+        [~,ng]=imhist(handles.ImagenOR3);
+        tam=size(handles.ImagenOR3);
+        pri=ng(1);
+        ult=ng(end);
+        set(handles.Nivel3,'String',[num2str(pri),',',num2str(ult)]);
+        set(handles.Nivel3,'FontWeight','bold');
+        set(handles.Size3,'String',[num2str(tam(1)),' x ',num2str(tam(2))]);
+        set(handles.Size3,'FontWeight','bold');
+    end 
+     guidata(hObject, handles);
  
 
 % --- Executes on slider movement.
@@ -759,28 +767,35 @@ end
 
 % --- Executes on button press in MSE.
 function MSE_Callback(hObject, eventdata, handles)
-% hObject    handle to MSE (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
-    imagen1=handles.ImagenOR1;
-elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
-    imagen1=handles.ImagenOR2;
-elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
-    imagen1=handles.ImagenOR3;
-end
+    % hObject    handle to MSE (see GCBO)
+    % eventdata  reserved - to be defined in a future version of MATLAB
+    % handles    structure with handles and user data (see GUIDATA)
+    if(get(handles.OrigenIMG1,'Value')==get(handles.OrigenIMG1,'Max'))
+        imagen1=handles.ImagenOR1;
+    elseif(get(handles.OrigenIMG2,'Value')==get(handles.OrigenIMG2,'Max'))
+        imagen1=handles.ImagenOR2;
+    elseif(get(handles.OrigenIMG3,'Value')==get(handles.OrigenIMG3,'Max'))
+        imagen1=handles.ImagenOR3;
+    end
 
-if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
-    imagen2=handles.ImagenOR1;
-elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
-    imagen2=handles.ImagenOR2;
-elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
-    imagen2=handles.ImagenOR3;
-end
-[filas columnas] = size(imagen1);
-img_error = (double(imagen1) - double(imagen2));
-error = norm(img_error(:))^2/(filas*columnas);
-set(handles.OutMSE,'String',error);
+    if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
+        imagen2=handles.ImagenOR1;
+    elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
+        imagen2=handles.ImagenOR2;
+    elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
+        imagen2=handles.ImagenOR3;
+    end
+    tam1 = size(imagen1);
+    tam2 = size(imagen2);
+    if(tam1 == tam2)
+        [filas columnas] = size(imagen1);
+        img_error = (double(imagen1) - double(imagen2));
+        error = norm(img_error(:))^2/(filas*columnas);
+        set(handles.OutMSE,'String',error);
+    else
+        errordlg('Las imagenes deben de tener el mismo tamaño');
+    end
+
 
 
 
