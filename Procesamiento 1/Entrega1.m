@@ -286,7 +286,6 @@ function Interpolacion_Callback(hObject, eventdata, handles)
             handles.IMGInter=IMGinterpolada;
             if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
                 axes(handles.IMG1);%activo handles.IMG1
-                handles.CargaIMG1=1;
                 handles.ImagenOR1=handles.IMGInter;
                 imshow(handles.ImagenOR1),axis off;
                 tam=size(handles.ImagenOR1);
@@ -298,7 +297,6 @@ function Interpolacion_Callback(hObject, eventdata, handles)
                 set(handles.Size1,'FontWeight','bold');
             elseif(get(handles.DestinoIMG2,'Value')==get(handles.DestinoIMG2,'Max'))
                 axes(handles.IMG2);%activo handles.IMG2
-                handles.CargaIMG2=1;
                 handles.ImagenOR2=handles.IMGInter;
                 imshow(handles.ImagenOR2),axis off;
                 tam=size(handles.ImagenOR2);
@@ -311,7 +309,6 @@ function Interpolacion_Callback(hObject, eventdata, handles)
                 set(handles.Size2,'FontWeight','bold');
             elseif(get(handles.DestinoIMG3,'Value')==get(handles.DestinoIMG3,'Max'))
                 axes(handles.IMG3);%activo handles.IMG3
-                handles.CargaIMG3=1;
                 handles.ImagenOR3=handles.IMGInter;
                 imshow(handles.ImagenOR3),axis off;
                 [~,ng]=imhist(handles.ImagenOR3);
@@ -410,10 +407,10 @@ function Submuestreo_Callback(hObject, eventdata, handles)
               %se convoluciona
               u = imfilter(imagen,h,'replicate','same','conv');
               %se obtiene la imagen
-              imgsubmuestreada = u(1:factor:size(u, 1), 1:factor:size(u, 2));
+              imgsubmuestreada = u(factor/2:factor:size(u, 1), factor/2:factor:size(u, 2));
             else
               %si no se emborrona se tiene la imagen original
-              imgsubmuestreada = imagen(1:factor:size(imagen,1), 1:factor:size(imagen, 2));
+              imgsubmuestreada = imagen(factor/2:factor:size(imagen,1), factor/2:factor:size(imagen, 2));
             end
             handles.IMGSub=imgsubmuestreada;
         if(get(handles.DestinoIMG1,'Value')==get(handles.DestinoIMG1,'Max'))
@@ -754,13 +751,13 @@ function Guardar_Callback(hObject, eventdata, handles)
 [FileName,PathName] = uiputfile({'*.jpg';'*.jpeg';'*.pgm';'*pcx';'*.bmp';'*.tiff';'*.tif';'*.png'}, 'Guardar imagen');
 
 if(get(handles.OpcionIMG1,'Value') == get(handles.OpcionIMG1,'Max'))
-    imwrite(handles.IMG1,strcat(PathName,FileName));
+    imwrite(handles.ImagenOR1,strcat(PathName,FileName));
 end
 if(get(handles.OpcionIMG2,'Value') == get(handles.OpcionIMG1,'Max'))
-    imwrite(handles.IMG2,strcat(PathName,FileName));
+    imwrite(handles.ImagenOR1,strcat(PathName,FileName));
 end
 if(get(handles.OpcionIMG3,'Value') == get(handles.OpcionIMG1,'Max'))
-    imwrite(handles.IMG3,strcat(PathName,FileName));
+    imwrite(handles.ImagenOR1,strcat(PathName,FileName));
 end
 
 
@@ -790,8 +787,9 @@ function MSE_Callback(hObject, eventdata, handles)
     if(tam1 == tam2)
         [filas columnas] = size(imagen1);
         img_error = (double(imagen1) - double(imagen2));
-        error = norm(img_error(:))^2/(filas*columnas);
-        set(handles.OutMSE,'String',error);
+        %Mean_Square_Error = norm(img_error(:))^2/(filas*columnas);
+         Mean_Square_Error = sum(sum(img_error .* img_error)) / (filas*columnas);
+        set(handles.OutMSE,'String',Mean_Square_Error);
     else
         errordlg('Las imagenes deben de tener el mismo tamaño');
     end
