@@ -22,7 +22,7 @@ function varargout = Entrega1(varargin)
 
 % Edit the above text to modify the response to help Entrega1
 
-% Last Modified by GUIDE v2.5 27-Nov-2013 10:55:06
+% Last Modified by GUIDE v2.5 27-Nov-2013 10:38:16
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -420,33 +420,15 @@ if(get(handles.OpcionSP,'Value')==get(handles.OpcionSP,'Max'))
         B(find(pimienta<=probab & probab<=1))=0;
     end
     handles.ImagenRuido = B;
-    C=B;
     axes(handles.IMG2);
     handles.IMG2 = uint8(handles.ImagenRuido);
     imshow(handles.IMG2),axis off;
     [~,ng]=imhist(handles.IMG2);
-     %SNR y MSE
-    [FilasOr ColumOr] = size(handles.ImagenOR1);
-    [FilasRu ColumRu] = size(handles.ImagenRuido);
-    %MSE
-    im_error = double(handles.ImagenRuido) - A;
-    mse = norm(im_error(:)).^2/(FilasOr*ColumOr);
-    set (handles.OutOrMSE,'String',mse);
-    %SNR
-    
-     media=mean2(A);
-    numerador=sum((A(:)-media).^2);
-    denominador=sum((A(:)-C(:)).^2);
-    snr=10*log10(numerador/denominador);
-    set (handles.OutOrSNRdb,'String',snr);
-    
-    %Tamaño imagen
     pri=ng(1);
     ult=ng(end);
     set(handles.nivel2,'String',['[',num2str(pri),',',num2str(ult),']']);
     set(handles.nivel2,'FontWeight','bold');
    
-    guidata(hObject, handles); 
 end
 
 
@@ -521,17 +503,17 @@ end
 
 
 function OutOrSHRdb_Callback(hObject, eventdata, handles)
-% hObject    handle to OutOrSNRdb (see GCBO)
+% hObject    handle to OutOrSHRdb (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of OutOrSNRdb as text
-%        str2double(get(hObject,'String')) returns contents of OutOrSNRdb as a double
+% Hints: get(hObject,'String') returns contents of OutOrSHRdb as text
+%        str2double(get(hObject,'String')) returns contents of OutOrSHRdb as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function OutOrSNRdb_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to OutOrSNRdb (see GCBO)
+function OutOrSHRdb_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to OutOrSHRdb (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
